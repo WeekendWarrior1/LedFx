@@ -398,7 +398,11 @@ class Virtual:
             and self._config["transition_time"] > 0
         ):
             # Get and process transition effect frame
-            transition_frame = self._transition_effect.get_pixels()
+            transition_frame = frame.copy()
+            try:
+                transition_frame = self._transition_effect.get_pixels()
+            except:
+                _LOGGER.warning("Failed to transition with Nonetype error, skipping frame blend")
             # np.clip(transition_frame, 0, 255, transition_frame)
             transition_frame[frame > 255] = 255
             transition_frame[frame < 0] = 0
